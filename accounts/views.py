@@ -115,6 +115,7 @@ def user_info(request):
     """
     user = request.user
     return Response({
+        "id": user.id,
         "username": user.username,
         "email": user.email,
         "detail": "인증에 성공했습니다."
