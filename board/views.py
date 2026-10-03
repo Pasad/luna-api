@@ -12,7 +12,7 @@ class BoardStandardPagination(PageNumberPagination):
     max_page_size = 100
 
 class PostListCreateAPIView(ListCreateAPIView):
-    queryset = Post.objects.all().order_by('-id')
+    queryset = Post.objects.select_related('author').order_by('-id')
     serializer_class = PostListSerializer
     
     # 조회(GET)는 누구나(Allow), 생성/수정(POST)은 로그인한 사람만(IsAuthenticated)
@@ -26,7 +26,7 @@ class PostListCreateAPIView(ListCreateAPIView):
         serializer.save(author=self.request.user)
 
 class PostRetrieveAPIView(RetrieveUpdateDestroyAPIView):
-    queryset = Post.objects.all()
+    queryset = Post.objects.select_related('author')
     serializer_class = PostListSerializer
     
     # 상세 보기는 누구나(ReadOnly) 가능하지만, 
